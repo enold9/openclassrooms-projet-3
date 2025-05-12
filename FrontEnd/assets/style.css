@@ -28,6 +28,7 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
 body {
 	line-height: 1;
 }
@@ -125,6 +126,30 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.filtres {
+	display: flex;
+	justify-content: center;
+	margin: 5em;
+	gap: 1em;
+}
+
+.filtres input {
+	border: #1D6154 1px solid; 
+	background-color: white;
+	color: #1D6154;
+	font-family: 'syne';
+	font-size: 1.2em;
+	padding: 7px;
+	border-radius: 20px;
+	min-width: 6em;
+}
+
+.filtres input:hover {
+	background-color: #1D6154;
+	color: white;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -135,8 +160,8 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-
 }
+
 #contact {
 	width: 50%;
 margin: auto;
