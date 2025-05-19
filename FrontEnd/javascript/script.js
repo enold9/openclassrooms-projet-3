@@ -21,33 +21,45 @@ function genererGallerie(projets){
 }
 genererGallerie(projets)
 
-// écouter les boutons pour afficher la gallerie différemment au click
-const boutonTous = document.querySelector(`input[name="Tous"]`)
-boutonTous.addEventListener("click", function (){
-    genererGallerie(projets)
-})
+let logged = window.localStorage.getItem("logged")
+logged = JSON.parse(logged)
 
-
-const boutonObjets = document.querySelector(`input[name="Objets"]`)
-boutonObjets.addEventListener("click", function (){
-    const objets = projets.filter(function(projets){
-        return projets.category.name === "Objets"
+if(logged === null){
+    // écouter les boutons pour afficher la gallerie différemment au click
+    const boutonTous = document.querySelector(`input[name="Tous"]`)
+    boutonTous.addEventListener("click", function (){
+        genererGallerie(projets)
     })
-    genererGallerie(objets)
-})
 
-const boutonAppartements = document.querySelector(`input[name="Appartements"]`)
-boutonAppartements.addEventListener("click", function (){
-    const appartements = projets.filter(function(projets){
-        return projets.category.name === "Appartements"
-    })
-    genererGallerie(appartements)
-})
 
-const boutonHotelEtRestaurants = document.querySelector(`input[name="Hotels & restaurants"]`)
-boutonHotelEtRestaurants.addEventListener("click", function(){
-    const HotelEtRestaurants = projets.filter(function(projets){
-        return projets.category.name === "Hotels & restaurants"
+    const boutonObjets = document.querySelector(`input[name="Objets"]`)
+    boutonObjets.addEventListener("click", function (){
+        const objets = projets.filter(function(projets){
+            return projets.category.name === "Objets"
+        })
+        genererGallerie(objets)
     })
-    genererGallerie(HotelEtRestaurants)
-})
+
+    const boutonAppartements = document.querySelector(`input[name="Appartements"]`)
+    boutonAppartements.addEventListener("click", function (){
+        const appartements = projets.filter(function(projets){
+            return projets.category.name === "Appartements"
+        })
+        genererGallerie(appartements)
+    })
+
+    const boutonHotelEtRestaurants = document.querySelector(`input[name="Hotels & restaurants"]`)
+    boutonHotelEtRestaurants.addEventListener("click", function(){
+        const HotelEtRestaurants = projets.filter(function(projets){
+            return projets.category.name === "Hotels & restaurants"
+        })
+        genererGallerie(HotelEtRestaurants)
+    })
+}
+
+else {
+    const boutons = document.querySelector(".filtres")
+    boutons.classList.add("hidden")
+    const modifier = document.querySelector("#portfolio bouton")
+    modifier.classList.remove("hidden")
+}
