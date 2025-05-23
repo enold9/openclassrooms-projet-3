@@ -77,6 +77,11 @@ function cacherPopups(){
 let logged = window.localStorage.getItem("logged")
 logged = JSON.parse(logged)
 
+function logout(){
+    window.localStorage.removeItem("logged")
+}
+
+
 if(logged === null){
     // écoute les boutons pour afficher la gallerie différemment au click
     const boutonTous = document.querySelector(`input[name="Tous"]`)
@@ -111,6 +116,8 @@ if(logged === null){
 }
 
 else {
+    // faire le logout
+
     // cache les boutons filtres
     const boutons = document.querySelector(".filtres")
     boutons.classList.add("hidden")
@@ -206,19 +213,27 @@ else {
 
         // ajoute l'image dans l'api
         const ajouterImage = document.querySelector(".popup form")
+        console.log(ajouterImage)
         ajouterImage.addEventListener("submit", async (event) => {
             event.preventDefault()
+            console.log(event)
+            console.log(event.target[0].value)
+            console.log(event.target[1].value)
+            console.log(event.target[2].value)
+            console.log(logged.token)
             const body = {
                 "image" : event.target[0].value,
                 "title" : event.target[1].value,
-                "category" : event.target[2].value
+                "category" :1 // event.target[2].value
                 // "imageUrl" : event.target[0].value,
                 // "title" : event.target[1].value,
                 // "categoryId" : event.target[2].value
             }
+            console.log(body)
             const reponsePost = await fetch (`http://localhost:5678/api/works`,{
                 method: "POST",
                 //application/json
+                mode: "no-cors",
                 headers: {"content-Type" : "multipart/form-data",
                           "Authorization": `Bearer ${logged.token}`
                 },
