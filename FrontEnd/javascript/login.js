@@ -17,9 +17,6 @@ boutonLogin.addEventListener("submit", async (event) => {
         body: JSON.stringify(body),
     })
 
-    // const ququ = window.localStorage.getItem("logged")
-    // const ekaka = JSON.parse(ququ)
-
     if(JSON.stringify(reponse.status)==="200"){
         const logged = await reponse.json()
         const valeurLogged = JSON.stringify(logged)
