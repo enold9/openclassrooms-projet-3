@@ -1,3 +1,21 @@
+// REDIRECTION VERS LA SECTION CONTACT DANS LE LIEN DU LOGIN
+document.addEventListener("DOMContentLoaded", () => {
+  const sectionToScroll = window.location.hash.substring(1);
+  console.log("yepee")
+  if (sectionToScroll) {
+    console.log("yahoo")
+    setTimeout(function () {
+      const targetSection = document.getElementById(sectionToScroll);
+      if (targetSection) {
+        console.log("uwaaa")
+        window.scrollTo({
+          top: targetSection.offsetTop,
+        });
+      }
+    }, 100);
+  }
+});
+
 // récupère les works et les categories depuis l'api
 const reponse = await fetch("http://localhost:5678/api/works")
 let projets = await reponse.json()
@@ -5,12 +23,12 @@ const reponseCategories = await fetch("http://localhost:5678/api/categories")
 const categories = await reponseCategories.json()
 
 // récupère le token depuis le local storage
-let logged = window.localStorage.getItem("logged")
+let logged = window.sessionStorage.getItem("logged")
 logged = JSON.parse(logged)
 
 // fonction pour se déconnecter en enlevant le token
 function logout(){
-    window.localStorage.removeItem("logged")
+    window.sessionStorage.removeItem("logged")
     logged = null
 }
 
@@ -69,16 +87,6 @@ function effacer(poubelle){
     }
 }
 
-// fonction pour refresh les images après une reponse positive du serveur
-async function refreshImages(reponse){
-    if(reponse.status < 400){
-        const reponseWorks = await fetch("http://localhost:5678/api/works")
-        projets = await reponseWorks.json()
-        genererGallerie(projets)
-        afficherMiniGallerie(projets)
-    }
-}
-
 // fonctions pour afficher et cacher le popup
 function afficherPopups(){
     const popupBackground = document.querySelector(".popupBackground")
@@ -99,6 +107,17 @@ function cacherPopups(){
     }
 }
 
+// fonction pour refresh les images après une reponse positive du serveur
+async function refreshImages(reponse){
+    if(reponse.status < 400){
+        const reponseWorks = await fetch("http://localhost:5678/api/works")
+        projets = await reponseWorks.json()
+        genererGallerie(projets)
+        afficherMiniGallerie(projets)
+    }
+}
+
+// fonction pour qu'un bouton à la fois reste vert quand on le sélectionne
 function boutonEnVert(bouton){
     const filtres = document.querySelectorAll(".filters input")
     for(let i=0; i<filtres.length; i++){
@@ -209,7 +228,7 @@ ajouterImage.addEventListener("submit", async (event) => {
     event.preventDefault()
     const body = new FormData()
     body.append("image" , event.target[0].files[0])
-    body.append("title" , event.target[1].value)            //merci
+    body.append("title" , event.target[1].value)
     body.append("category" ,event.target[2].value)
     const reponsePost = await fetch (`http://localhost:5678/api/works`,{
         method: "POST",
@@ -220,7 +239,7 @@ ajouterImage.addEventListener("submit", async (event) => {
     cacherPopups()
 })
 
-// enleve le popup si on clique sur la crois ou en dehors et revient en arrière avec la flèche
+// enleve le popup si on clique sur la croix ou en dehors et revient en arrière avec la flèche
 const exit = document.querySelectorAll("div.popupBackground, .popup i")
 for(let i = 0; i < exit.length; i++){
     if(i===1){
@@ -238,8 +257,12 @@ for(let i = 0; i < exit.length; i++){
 const boutonConnexion = document.getElementById("logButton")
 function lancer(){
     genererGallerie(projets)
+    const modifier = document.querySelector("#portfolio bouton")
+    const edition = document.querySelector(".edition")
     if(logged === null){
         afficherBoutons()
+        edition.classList.add("hidden")
+        modifier.classList.add("hidden")
         boutonConnexion.innerText = "login"
         boutonConnexion.addEventListener("click", () =>{
             window.location.replace("http://127.0.0.1:5500/FrontEnd/login.html")
@@ -253,9 +276,8 @@ function lancer(){
                 logout()
                 lancer()
         })
-
         // affiche le popup si on clique sur modifier
-        const modifier = document.querySelector("#portfolio bouton")
+        edition.classList.remove("hidden")
         modifier.classList.remove("hidden")
         modifier.addEventListener("click", () =>{
             afficherPopups()

@@ -20,8 +20,8 @@ boutonLogin.addEventListener("submit", async (event) => {
     if(JSON.stringify(reponse.status)==="200"){
         const logged = await reponse.json()
         const valeurLogged = JSON.stringify(logged)
-        window.localStorage.setItem("logged",valeurLogged)
-        window.location.replace("http://127.0.0.1:5500/FrontEnd/index.html")
+        window.sessionStorage.setItem("logged",valeurLogged)
+        window.location.replace("../FrontEnd/index.html")
     }else{
         mail.value = ``
         mail.classList.add("error")
