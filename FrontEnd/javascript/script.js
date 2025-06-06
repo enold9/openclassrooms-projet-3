@@ -1,13 +1,10 @@
 // REDIRECTION VERS LA SECTION CONTACT DANS LE LIEN DU LOGIN
 document.addEventListener("DOMContentLoaded", () => {
   const sectionToScroll = window.location.hash.substring(1);
-  console.log("yepee")
   if (sectionToScroll) {
-    console.log("yahoo")
     setTimeout(function () {
       const targetSection = document.getElementById(sectionToScroll);
       if (targetSection) {
-        console.log("uwaaa")
         window.scrollTo({
           top: targetSection.offsetTop,
         });
@@ -160,7 +157,14 @@ const ajoutPhoto = document.querySelector(".firstPopup")
 const champImage = document.getElementById("photo")
 const elements = document.querySelectorAll(".photoArea img, .photoArea span, .photoArea h3, .photoArea p")
 const image = elements[0]
+const valider = document.querySelector(".valider")
 popupAjoutPhoto.addEventListener("click", async () => {
+    valider.innerHTML = ``
+    const boutonValider = document.createElement("button")
+    boutonValider.type = "submit"
+    boutonValider.setAttribute("disabled","")
+    boutonValider.innerText = "Valider"
+    valider.appendChild(boutonValider)
     ajoutPhoto.classList.add("hidden")
 
     // efface l'image si il y en a une
@@ -190,7 +194,6 @@ popupAjoutPhoto.addEventListener("click", async () => {
     }
 
     // active le bouton valider si tous les champs sont remplis
-    const boutonValider = document.querySelector(".valider button")
     const champs = document.querySelectorAll(".popup input, .popup select")
     for(let i = 0; i<champs.length; i++){
         champs[i].addEventListener("change", () => {
